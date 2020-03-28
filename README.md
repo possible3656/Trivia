@@ -1,7 +1,14 @@
 # Trivia
 In this project we are making a trivia app using google's volley library 
 Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster. Volley is available on GitHub.
+
+
+
+
+
 we are using volley because 
+
+
 Volley offers the following benefits:
 
 
