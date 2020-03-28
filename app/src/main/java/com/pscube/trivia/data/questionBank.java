@@ -36,8 +36,14 @@ public class questionBank {
                 for (int i = 0;i<response.length();i++){
 
                     try {
-                        Log.d("happy", "onResponse:"+ response.getJSONArray(i).get(0));
-                        Log.d("happy_again ", "onResponse:"+ response.getJSONArray(i).get(1));
+                        questions questions =new questions();
+                        questions.setAnswer(response.getJSONArray(i).getString(0));
+                        questions.setAnswerTrue(response.getJSONArray(i).getBoolean(1));
+                        //adding this question to our array
+                        questonsArrayList.add(  questions   );
+
+//                        Log.d("happy", "onResponse:"+ response.getJSONArray(i).getString(0));
+//                        Log.d("happy_again ", "onResponse:"+ response.getJSONArray(i).getBoolean(1));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -60,7 +66,7 @@ public class questionBank {
 
 
 
-        return null;
+        return questonsArrayList;
 
 
     }
