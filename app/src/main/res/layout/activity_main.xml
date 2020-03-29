@@ -1,18 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/bsckround"
+    >
+
+
+
 
     <TextView
+        android:id="@+id/textView_trivia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Trivia"
+        android:textColor="#00E676"
+        android:textSize="50sp"
+        android:layout_below="@id/buttonTrue"
+        android:textStyle="bold" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="20dp"
+        android:elevation="8dp"
+        android:padding="12dp"
+        app:cardBackgroundColor="#080816" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/buttonTrue"
+    android:text="TRUE"
+    android:textSize="20sp"
+    android:layout_marginStart="75dp"
+    android:layout_below="@id/cardView"
+    android:layout_marginTop="30dp"
+
+
+    />
+
+    <Button
+        android:id="@+id/buttonFalse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="75dp"
+        android:text="FALSE"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/PrevImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#1976D2"
+        app:srcCompat="@android:drawable/ic_media_previous"
+
+        />
+
+    <ImageView
+        android:id="@+id/nextImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#1976D2"
+        app:srcCompat="@android:drawable/ic_media_next"
+
+
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+      android:scaleType="centerCrop"
+        android:elevation="10dp"
+
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/unnamed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        />
+
+
+</RelativeLayout>

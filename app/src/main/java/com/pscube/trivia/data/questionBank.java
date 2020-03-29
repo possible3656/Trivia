@@ -27,7 +27,7 @@ public class questionBank {
 
     ArrayList<questions> questonsArrayList = new ArrayList<>();
 
-    public List<questions> getQuestions(){
+    public List<questions> getQuestions(final asyncanswer callback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET
                 , url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -41,6 +41,8 @@ public class questionBank {
                         questions.setAnswerTrue(response.getJSONArray(i).getBoolean(1));
                         //adding this question to our array
                         questonsArrayList.add(  questions   );
+//                        Log.d("question", "onResponse: "+questions.getAnswer());
+//                        Log.d("answer", "onResponse: "+questions.isAnswerTrue());
 
 //                        Log.d("happy", "onResponse:"+ response.getJSONArray(i).getString(0));
 //                        Log.d("happy_again ", "onResponse:"+ response.getJSONArray(i).getBoolean(1));
@@ -51,6 +53,7 @@ public class questionBank {
 
 
                 }
+                if (null !=callback) callback.processFinished(questonsArrayList);
 
             }
         }, new Response.ErrorListener() {
