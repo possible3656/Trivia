@@ -3,6 +3,7 @@ package com.pscube.trivia;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-//intializing
+    //intializing
     CardView cardView;
     TextView counterTextView;
     TextView questionTextView;
-    Button   trueButton;
-    Button   falseButton;
+    Button trueButton;
+    Button falseButton;
     ImageView nextImageView;
     ImageView prevImageView;
     List<questions> questionsList;
@@ -42,14 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //
-        cardView=findViewById(R.id.cardView);
-        counterTextView=findViewById(R.id.counterTextView);
-        questionTextView=findViewById(R.id.questionTextView);
-        trueButton=findViewById(R.id.buttonTrue);
-        falseButton=findViewById(R.id.buttonFalse);
-        nextImageView=findViewById(R.id.nextImage);
-        prevImageView=findViewById(R.id.prevImage);
-
+        cardView = findViewById(R.id.cardView);
+        counterTextView = findViewById(R.id.counterTextView);
+        questionTextView = findViewById(R.id.questionTextView);
+        trueButton = findViewById(R.id.buttonTrue);
+        falseButton = findViewById(R.id.buttonFalse);
+        nextImageView = findViewById(R.id.nextImage);
+        prevImageView = findViewById(R.id.prevImage);
 
 
         trueButton.setOnClickListener(this);
@@ -58,124 +58,129 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevImageView.setOnClickListener(this);
 
 
-
-
-
-       questionsList=  new questionBank().getQuestions(new asyncanswer() {
+        questionsList = new questionBank().getQuestions(new asyncanswer() {
             @Override
             public void processFinished(ArrayList<questions> questionsArrayList) {
-                Log.d("happy1", "processFinished: "+questionsArrayList);
+                Log.d("happy1", "processFinished: " + questionsArrayList);
                 questionTextView.setText(questionsArrayList.get(counter).getAnswer());
                 y = questionsArrayList.size();
 
-                counterTextView.setText(x +" out of "+y);
+                counterTextView.setText(x + " out of " + y);
 
             }
         });
-
-
 
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.nextImage:
-                counter=counter+1;
-                x= x+1;
+                counter = counter + 1;
+                x = x + 1;
 
                 questionTextView.setText(questionsList.get(counter).getAnswer());
                 Log.d("nextButton", "onClick: button pressed");
-                counterTextView.setText(x +" out of "+y);
-
-
-
-
-
+                counterTextView.setText(x + " out of " + y);
 
                 break;
 
             case R.id.prevImage:
-                if (counter==0){
+                if (counter == 0) {
                     Toast.makeText(this, "you are on first question", Toast.LENGTH_SHORT).show();
 
-
-
-                }
-                else {
+                } else {
                     counter = counter - 1;
-                    x= x-1;
+                    x = x - 1;
                     questionTextView.setText(questionsList.get(counter).getAnswer());
                     Log.d("prevButton", "onClick: button pressed");
-                    counterTextView.setText(x +" out of "+y);
-
+                    counterTextView.setText(x + " out of " + y);
                 }
                 break;
 
 
             case R.id.buttonTrue:
-                Log.d("trueButton", "onClick: "+questionsList.get(counter).isAnswerTrue());
-               // if (questionsList.get(counter).isAnswerTrue())
-                if (questionsList.get(counter).isAnswerTrue()==isTrue) {
+                Log.d("trueButton", "onClick: " + questionsList.get(counter).isAnswerTrue());
+                // if (questionsList.get(counter).isAnswerTrue())
+                if (questionsList.get(counter).isAnswerTrue() == isTrue) {
 
                     Toast.makeText(this, "correct Answer", Toast.LENGTH_SHORT).show();
+                    shakeAnimation_right();
 
-                    shakeAnimation();
-
-
-
-
-
-                }
-                else {
-
+                } else {
 
                     Toast.makeText(this, "wrong answer", Toast.LENGTH_SHORT).show();
+                    shakeAnimation_wrong();
                 }
-
-
-
-
-
-
-
-
                 break;
 
             case R.id.buttonFalse:
-                if (questionsList.get(counter).isAnswerTrue()==isFalse) {
+                if (questionsList.get(counter).isAnswerTrue() == isFalse) {
 
                     Toast.makeText(this, "correct Answer", Toast.LENGTH_SHORT).show();
+                    shakeAnimation_right();
 
-                    shakeAnimation();
 
-
-                }
-                else {
+                } else {
 
 
                     Toast.makeText(this, "wrong answer", Toast.LENGTH_SHORT).show();
+                    shakeAnimation_wrong();
                 }
                 break;
-
-
-
 
 
         }
     }
 
-  public void shakeAnimation(){
+    public void shakeAnimation_wrong() {
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.shake);
+        cardView.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                cardView.setCardBackgroundColor(Color.RED);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                cardView.setCardBackgroundColor(getResources().getColor(R.color.cardBackground));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+    }
+
+    public void shakeAnimation_right() {
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.shake);
+        cardView.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                cardView.setCardBackgroundColor(Color.GREEN);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                cardView.setCardBackgroundColor(getResources().getColor(R.color.cardBackground));
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
 
-      cardView.startAnimation(AnimationUtils.loadAnimation(this,R.anim.shake));
-  }
-
-
-
-
-
-
+    }
 }

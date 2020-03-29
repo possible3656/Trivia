@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bsckround">#110e29</color>
     <color name="bsckroundCard">#270f24</color>
+    <color name="cardBackground">#080816</color>
 </resources>

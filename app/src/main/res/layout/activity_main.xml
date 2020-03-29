@@ -43,7 +43,7 @@
         android:layout_marginTop="20dp"
         android:elevation="8dp"
         android:padding="12dp"
-        app:cardBackgroundColor="#080816">
+        app:cardBackgroundColor="@color/cardBackground">
 
 
         <TextView
