@@ -13,17 +13,16 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/counterTextView"
     android:text="0 out of 100"
     android:textColor="#21D37C"
     android:layout_below="@id/textView_trivia"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="20dp"
     android:textSize="20sp"
+    android:id="@+id/counterTextView"
 />
 
     <TextView
-        android:id="@+id/textView_trivia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -33,47 +32,49 @@
         android:textColor="#00E676"
         android:textSize="50sp"
         android:layout_below="@id/buttonTrue"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:id="@+id/textView_trivia"
+        />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_below="@id/imageView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:elevation="8dp"
         android:padding="12dp"
-        app:cardBackgroundColor="@color/cardBackground">
+        app:cardBackgroundColor="@color/cardBackground"
+        android:id="@+id/cardView">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Random question "
+            android:text="Loading question ... "
             android:textColor="@android:color/white"
             android:padding="10dp"
             android:textStyle="bold"
-            android:id="@+id/questionTextView"
             android:gravity="center_horizontal"
             android:textSize="20sp"
+            android:id="@+id/questionTextView"
 
         />
     </androidx.cardview.widget.CardView>
 <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/buttonTrue"
     android:text="TRUE"
     android:textSize="20sp"
     android:layout_marginStart="75dp"
     android:layout_below="@id/cardView"
     android:layout_marginTop="30dp"
+    android:id="@+id/buttonTrue"
 
 
     />
 
     <Button
-        android:id="@+id/buttonFalse"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/cardView"
@@ -81,10 +82,11 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="75dp"
         android:text="FALSE"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:id="@+id/buttonFalse"/>
 
     <ImageView
-        android:id="@+id/prevImage"
+
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -92,11 +94,12 @@
         android:layout_marginBottom="30dp"
         android:background="#1976D2"
         app:srcCompat="@android:drawable/ic_media_previous"
+        android:id="@+id/prevImage"
 
         />
 
     <ImageView
-        android:id="@+id/nextImage"
+
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
@@ -105,21 +108,41 @@
         android:layout_marginBottom="30dp"
         android:background="#1976D2"
         app:srcCompat="@android:drawable/ic_media_next"
+        android:id="@+id/nextImage"
 
 
         />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-      android:scaleType="centerCrop"
-        android:elevation="10dp"
 
+        android:layout_width="wrap_content"
+        android:scaleType="centerCrop"
+        android:elevation="10dp"
         android:layout_height="200dp"
         app:srcCompat="@drawable/unnamed"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:id="@+id/imageView"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Score : 0"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/imageView"
+        android:layout_marginTop="20dp"
+        android:id="@+id/yourScore"
         />
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Highest score: 0"
+        android:textColor="#f110c2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:textSize="20sp"
+        android:id="@+id/highestScore"
+        />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.pscube.trivia;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,11 +22,15 @@ import com.pscube.trivia.models.questions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.provider.Telephony.BaseMmsColumns.MESSAGE_ID;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     //intializing
     CardView cardView;
     TextView counterTextView;
     TextView questionTextView;
+    TextView yourScore;
+    TextView highestScore;
     Button trueButton;
     Button falseButton;
     ImageView nextImageView;
@@ -34,8 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int counter = 0;
     int x = 1;
     int y = 0;
+    int score = 0;
+    int intHighestScore ;
     boolean isTrue = true;
     boolean isFalse = false;
+    private static  final  String MESSAGE_ID = "message_pref";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         falseButton = findViewById(R.id.buttonFalse);
         nextImageView = findViewById(R.id.nextImage);
         prevImageView = findViewById(R.id.prevImage);
+        yourScore = findViewById(R.id.yourScore);
+        highestScore= findViewById(R.id.highestScore);
 
 
         trueButton.setOnClickListener(this);
@@ -58,6 +69,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prevImageView.setOnClickListener(this);
 
 
+
+          gettingQuestionsFromModel();
+
+        Log.d("tag", "onCreate: "+score +" "+ intHighestScore);
+
+
+            gettingSharedPrefData();
+
+    }
+
+//methods
+
+    private void gettingQuestionsFromModel() {
         questionsList = new questionBank().getQuestions(new asyncanswer() {
             @Override
             public void processFinished(ArrayList<questions> questionsArrayList) {
@@ -70,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
     }
 
     @Override
@@ -78,40 +101,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.nextImage:
-                counter = counter + 1;
-                x = x + 1;
 
-                questionTextView.setText(questionsList.get(counter).getAnswer());
-                Log.d("nextButton", "onClick: button pressed");
-                counterTextView.setText(x + " out of " + y);
+                nextQuestion();
 
                 break;
 
             case R.id.prevImage:
                 if (counter == 0) {
-                    Toast.makeText(this, "you are on first question", Toast.LENGTH_SHORT).show();
+
+                    youAreOnFirstQuestion();
+
+
 
                 } else {
-                    counter = counter - 1;
-                    x = x - 1;
-                    questionTextView.setText(questionsList.get(counter).getAnswer());
-                    Log.d("prevButton", "onClick: button pressed");
-                    counterTextView.setText(x + " out of " + y);
+
+                  previousQuestion();
                 }
                 break;
 
 
             case R.id.buttonTrue:
-                Log.d("trueButton", "onClick: " + questionsList.get(counter).isAnswerTrue());
-                // if (questionsList.get(counter).isAnswerTrue())
-                if (questionsList.get(counter).isAnswerTrue() == isTrue) {
+                    if (questionsList.get(counter).isAnswerTrue() == isTrue) {
 
-                    Toast.makeText(this, "correct Answer", Toast.LENGTH_SHORT).show();
+                    scoreOnCorrectAnswer();
                     shakeAnimation_right();
+                    nextQuestion();
 
                 } else {
 
-                    Toast.makeText(this, "wrong answer", Toast.LENGTH_SHORT).show();
+
                     shakeAnimation_wrong();
                 }
                 break;
@@ -119,20 +137,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonFalse:
                 if (questionsList.get(counter).isAnswerTrue() == isFalse) {
 
-                    Toast.makeText(this, "correct Answer", Toast.LENGTH_SHORT).show();
+
+                    scoreOnCorrectAnswer();
                     shakeAnimation_right();
+                    nextQuestion();
 
 
                 } else {
 
 
-                    Toast.makeText(this, "wrong answer", Toast.LENGTH_SHORT).show();
                     shakeAnimation_wrong();
                 }
                 break;
 
 
         }
+    }
+
+    private void youAreOnFirstQuestion() {
+        Toast.makeText(this, "you are on first question", Toast.LENGTH_SHORT).show();
     }
 
     public void shakeAnimation_wrong() {
@@ -156,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
+        Toast.makeText(this, "wrong answer", Toast.LENGTH_SHORT).show();
     }
 
     public void shakeAnimation_right() {
@@ -179,8 +202,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onAnimationRepeat(Animation animation) {
 
             }
+
         });
+
+        Toast.makeText(this, "correct Answer", Toast.LENGTH_SHORT).show();
+    }
+
+    public void scoreOnCorrectAnswer(){
+        score = score + 10;
+        yourScore.setText("your score :"+score);
+        settingDataToSharedPref();
+
+    }
+
+    public  void  nextQuestion(){
+        counter = counter + 1;
+        x = x + 1;
+
+        questionTextView.setText(questionsList.get(counter).getAnswer());
+        Log.d("nextButton", "onClick: button pressed");
+        counterTextView.setText(x + " out of " + y);
+    }
+
+    public void previousQuestion(){
+
+
+        counter = counter - 1;
+        x = x - 1;
+        questionTextView.setText(questionsList.get(counter).getAnswer());
+        Log.d("prevButton", "onClick: button pressed");
+        counterTextView.setText(x + " out of " + y);
+
+    }
+
+    private void settingDataToSharedPref() {
+        if (score>=intHighestScore) {
+            SharedPreferences sharedPreferences = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("key", score);
+            editor.apply();
+        }
+    }
+
+    private void gettingSharedPrefData() {
+
+
+            SharedPreferences preferences = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
+            intHighestScore = preferences.getInt("key", 0);
+
+             Log.d("tag", "gettingSharedPrefData: "+intHighestScore + score);
+
+
+
+
+                highestScore.setText("Highest score: "+intHighestScore);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
 
 
     }
-}
